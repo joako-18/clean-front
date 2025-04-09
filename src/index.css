@@ -1,0 +1,191 @@
+/* Body */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f9fafb;
+  color: #333;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+/* Form */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 480px;
+  width: 100%;
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin: 20px;
+}
+
+form input,
+form textarea {
+  padding: 0.75rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 1rem;
+  color: #2d3748;
+  background-color: #f7fafc;
+  transition: border-color 0.2s ease-in-out;
+}
+
+form input:focus,
+form textarea:focus {
+  border-color: #63b3ed;
+  outline: none;
+}
+
+form button {
+  padding: 0.75rem 1.25rem;
+  background-color: #48bb78;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s ease-in-out;
+}
+
+form button:hover {
+  background-color: #38a169;
+}
+
+/* List and Items */
+/* List and Items */
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 20px 0;
+  width: 100%;
+  max-width: 800px; /* Aumentado */
+}
+
+li {
+  background-color: #fff;
+  padding: 1rem;
+  margin: 0.5rem 0;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; /* Alinea en la parte superior */
+  gap: 1rem;
+  font-size: 1rem;
+  flex-wrap: wrap; /* Permite que los elementos se bajen si no hay espacio */
+  word-break: break-word;
+  white-space: normal;
+}
+
+/* Texto dentro del ítem */
+li p {
+  margin: 0;
+  color: #4a5568;
+  flex: 1; /* Hace que el texto use el máximo espacio disponible */
+}
+
+/* Botones o acciones dentro del ítem */
+li .text-red-500,
+li .text-blue-500 {
+  white-space: nowrap; /* Evita que botones se partan en dos líneas */
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: color 0.2s ease-in-out;
+}
+
+li .text-red-500 {
+  color: #f56565;
+}
+
+li .text-red-500:hover {
+  color: #e53e3e;
+}
+
+li .text-blue-500 {
+  text-decoration: underline;
+  color: #4299e1;
+}
+
+li .text-blue-500:hover {
+  color: #3182ce;
+}
+
+
+/* Headings */
+h1, h2 {
+  color: #2d3748;
+  margin-bottom: 1rem;
+}
+
+h1 {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+/* Button for navigation and other actions */
+button {
+  padding: 0.5rem 1rem;
+  background-color: #38b2ac;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #319795;
+}
+
+/* Layout */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.mb-4 {
+  margin-bottom: 1rem;
+}
+
+.space-y-2 {
+  gap: 0.5rem;
+}
+
+.space-x-2 {
+  gap: 1rem;
+}
+
+.text-center {
+  text-align: center;
+}
+
+/* Flexbox Helpers */
+.flex {
+  display: flex;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.items-center {
+  align-items: center;
+}
+
+a {
+  color: #3182ce;
+  text-decoration: none;
+}
