@@ -3,6 +3,7 @@ import { ViveroDTO } from "../models/ViveroDTO";
 const API_BASE_URL = "http://localhost:8080/viveros";
 
 export class ViveroRepository {
+  
   async getAll(): Promise<ViveroDTO[]> {
     const response = await fetch(API_BASE_URL);
     return await response.json();

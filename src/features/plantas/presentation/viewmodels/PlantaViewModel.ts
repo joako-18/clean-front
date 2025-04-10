@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Planta } from "../../domain/entities/Planta";
 import { PlantaRepository } from "../../data/repository/PlantaRepository";
 import { CreatePlantaUseCase } from "../../domain/usecases/CreatePlantaUseCase";
@@ -14,29 +14,60 @@ const updateUseCase = new UpdatePlantaUseCase(repository);
 
 export const usePlantaViewModel = () => {
   const [plantas, setPlantas] = useState<Planta[]>([]);
+  const [isUpdating, setIsUpdating] = useState<boolean>(false);
 
   const fetchPlantas = async () => {
-    const data = await viewUseCase.execute();
-    setPlantas(data);
+    try {
+      const data = await viewUseCase.execute();
+      setPlantas(data);
+    } catch (error) {
+      console.error("Error al obtener plantas:", error);
+    }
   };
 
   const createPlanta = async (planta: Omit<Planta, "id">) => {
-    await createUseCase.execute(planta);
-    await fetchPlantas();
+    try {
+      setIsUpdating(true);
+      await createUseCase.execute(planta);
+      await fetchPlantas();
+    } catch (error) {
+      console.error("Error al crear planta:", error);
+    } finally {
+      setIsUpdating(false);
+    }
   };
 
   const deletePlanta = async (id: number) => {
-    await deleteUseCase.execute(id);
-    await fetchPlantas();
+    try {
+      setIsUpdating(true);
+      await deleteUseCase.execute(id);
+      await fetchPlantas();
+    } catch (error) {
+      console.error("Error al eliminar planta:", error);
+    } finally {
+      setIsUpdating(false);
+    }
   };
 
-  const updatePlanta = async (planta: Planta) => {
-    await updateUseCase.execute(planta);
-    await fetchPlantas();
+  const updatePlanta = async (id: number, data: Omit<Planta, "id">) => {
+    try {
+      setIsUpdating(true);
+      await updateUseCase.execute({ id, ...data });
+      await fetchPlantas();
+    } catch (error) {
+      console.error("Error al actualizar planta:", error);
+    } finally {
+      setIsUpdating(false);
+    }
   };
+
+  useEffect(() => {
+    fetchPlantas(); // cargar plantas al inicio
+  }, []);
 
   return {
     plantas,
+    isUpdating,
     fetchPlantas,
     createPlanta,
     deletePlanta,

@@ -1,84 +1,60 @@
-import React, { useEffect, useState } from "react";
-import { usePlantaViewModel } from "../viewmodels/PlantaViewModel";
+import { useState } from "react";
 import { Planta } from "../../domain/entities/Planta";
 
-type Props = {
-  selectedPlanta: Planta | null;
-  onClear: () => void;
-};
+interface Props {
+  onCreate: (planta: Omit<Planta, "id">) => void;
+}
 
-export const PlantaForm: React.FC<Props> = ({ selectedPlanta, onClear }) => {
+export const PlantaForm = ({ onCreate }: Props) => {
   const [nombre, setNombre] = useState("");
   const [tipo, setTipo] = useState("");
   const [riego, setRiego] = useState("");
 
-  const { createPlanta, updatePlanta } = usePlantaViewModel();
-
-  useEffect(() => {
-    if (selectedPlanta) {
-      setNombre(selectedPlanta.nombre);
-      setTipo(selectedPlanta.tipo);
-      setRiego(selectedPlanta.riego.toString());
-    } else {
-      setNombre("");
-      setTipo("");
-      setRiego("");
-    }
-  }, [selectedPlanta]);
-
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    const riegoNum = parseInt(riego);
 
-    const plantaData = {
-      nombre,
-      tipo,
-      riego: Number(riego),
-    };
-
-    if (selectedPlanta) {
-      await updatePlanta({ id: selectedPlanta.id, ...plantaData });
-      onClear();
-    } else {
-      await createPlanta(plantaData);
+    if (!nombre.trim() || !tipo.trim() || isNaN(riegoNum) || riegoNum <= 0) {
+      alert("Por favor, completa todos los campos correctamente.");
+      return;
     }
 
+    onCreate({ nombre, tipo, riego: riegoNum });
     setNombre("");
     setTipo("");
     setRiego("");
   };
 
   return (
-    <form onSubmit={handleSubmit} className="mb-6 space-x-2">
+    <form onSubmit={handleSubmit} className="mb-6 bg-white p-4 rounded-xl shadow space-y-3">
       <input
+        type="text"
+        placeholder="Nombre"
         value={nombre}
         onChange={(e) => setNombre(e.target.value)}
-        placeholder="Nombre"
-        required
-        className="border p-2"
+        className="border rounded w-full p-2"
       />
       <input
+        type="text"
+        placeholder="Tipo"
         value={tipo}
         onChange={(e) => setTipo(e.target.value)}
-        placeholder="Tipo"
-        required
-        className="border p-2"
+        className="border rounded w-full p-2"
       />
       <input
         type="number"
+        placeholder="Riego (en días)"
         value={riego}
         onChange={(e) => setRiego(e.target.value)}
-        placeholder="Riego"
-        required
-        className="border p-2"
+        className="border rounded w-full p-2"
+        min={1}
       />
-      <button type="submit" className="bg-green-600 text-white px-4 py-2 rounded">
-        {selectedPlanta ? "Actualizar" : "Agregar"}
+      <button
+        type="submit"
+        className="bg-green-600 text-white font-semibold py-2 px-4 rounded hover:bg-green-700 transition"
+      >
+        Crear Planta
       </button>
-      {selectedPlanta && (
-        <button type="button" onClick={onClear} className="bg-gray-400 text-white px-4 py-2 rounded">
-          Cancelar
-        </button>
-      )}
     </form>
   );
 };

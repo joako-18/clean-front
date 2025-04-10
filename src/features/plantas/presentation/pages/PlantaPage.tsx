@@ -1,16 +1,26 @@
-import React, { useState } from "react";
+import { usePlantaViewModel } from "../viewmodels/PlantaViewModel";
 import { PlantaForm } from "../components/PlantaForm";
 import { PlantaList } from "../components/PlantaList";
-import { Planta } from "../../domain/entities/Planta";
 
-export const PlantaPage: React.FC = () => {
-  const [selectedPlanta, setSelectedPlanta] = useState<Planta | null>(null);
+export const PlantaPage = () => {
+  const {
+    plantas,
+    isUpdating,
+    createPlanta,
+    deletePlanta,
+    updatePlanta,
+  } = usePlantaViewModel();
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Gestión de Plantas</h1>
-      <PlantaForm selectedPlanta={selectedPlanta} onClear={() => setSelectedPlanta(null)} />
-      <PlantaList onEdit={(planta) => setSelectedPlanta(planta)} />
+    <div className="p-4 max-w-3xl mx-auto">
+      <h1 className="text-2xl font-bold mb-4 text-center">Gestión de Plantas</h1>
+      <PlantaForm onCreate={createPlanta} />
+      <PlantaList
+        plantas={plantas}
+        onDelete={deletePlanta}
+        onUpdate={updatePlanta}
+        isLoading={isUpdating}
+      />
     </div>
   );
 };

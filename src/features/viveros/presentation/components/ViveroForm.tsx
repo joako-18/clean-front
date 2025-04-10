@@ -1,23 +1,30 @@
 import React, { useEffect, useState } from "react";
-import { useViveroViewModel } from "../viewmodels/ViveroViewModel";
 import { Vivero } from "../../domain/entities/Vivero";
 
 type Props = {
   selectedVivero: Vivero | null;
   onClear: () => void;
+  onCreate: (data: Omit<Vivero, "id">) => Promise<void>;
+  onUpdate: (id: number, data: Omit<Vivero, "id">) => Promise<void>;
+  loading: boolean;
 };
 
-export const ViveroForm: React.FC<Props> = ({ selectedVivero, onClear }) => {
+export const ViveroForm: React.FC<Props> = ({
+  selectedVivero,
+  onClear,
+  onCreate,
+  onUpdate,
+  loading
+}) => {
   const [nombre, setNombre] = useState("");
   const [descripcion, setDescripcion] = useState("");
-  const [ubicacion, setUbicacion] = useState("");
-  const { createVivero, updateVivero, loading } = useViveroViewModel();
+  const [direccion, setUbicacion] = useState("");
 
   useEffect(() => {
     if (selectedVivero) {
       setNombre(selectedVivero.nombre);
       setDescripcion(selectedVivero.descripcion);
-      setUbicacion(selectedVivero.ubicacion);
+      setUbicacion(selectedVivero.direccion);
     } else {
       setNombre("");
       setDescripcion("");
@@ -27,11 +34,12 @@ export const ViveroForm: React.FC<Props> = ({ selectedVivero, onClear }) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const data = { nombre, descripcion, direccion };
     if (selectedVivero) {
-      await updateVivero(selectedVivero.id, { nombre, descripcion, ubicacion });
+      await onUpdate(selectedVivero.id, data);
       onClear();
     } else {
-      await createVivero({ nombre, descripcion, ubicacion });
+      await onCreate(data);
     }
     setNombre("");
     setDescripcion("");
@@ -62,7 +70,7 @@ export const ViveroForm: React.FC<Props> = ({ selectedVivero, onClear }) => {
       <div className="mb-4">
         <input
           type="text"
-          value={ubicacion}
+          value={direccion}
           onChange={(e) => setUbicacion(e.target.value)}
           placeholder="Ubicación del vivero"
           className="border rounded p-2 w-full"

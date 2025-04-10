@@ -3,7 +3,7 @@ export class Vivero {
       public id: number,
       public nombre: string,
       public descripcion: string,
-      public ubicacion: string
+      public direccion: string
     ) {}
   }
   

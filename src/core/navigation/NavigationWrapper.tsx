@@ -2,7 +2,6 @@ import React from 'react';
 import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom';
 import { ViveroPage } from '../../features/viveros/presentation/pages/ViveroPage';
 import { PlantaPage } from '../../features/plantas/presentation/pages/PlantaPage';
-
 export const NavigationWrapper: React.FC = () => {
   return (
     <BrowserRouter>
