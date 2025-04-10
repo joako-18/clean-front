@@ -17,12 +17,14 @@ export class PlantaRepository {
   }
 
   async update(planta: Planta): Promise<void> {
-    await fetch(`${this.apiUrl}/${planta.id}`, {
+    await fetch(this.apiUrl, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(planta),
     });
   }
+  
+  
 
   async delete(id: number): Promise<void> {
     await fetch(`${this.apiUrl}/${id}`, { method: "DELETE" });

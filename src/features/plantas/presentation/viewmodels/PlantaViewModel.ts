@@ -15,6 +15,7 @@ const updateUseCase = new UpdatePlantaUseCase(repository);
 export const usePlantaViewModel = () => {
   const [plantas, setPlantas] = useState<Planta[]>([]);
   const [isUpdating, setIsUpdating] = useState<boolean>(false);
+  const [plantaToEdit, setPlantaToEdit] = useState<Planta | null>(null);
 
   const fetchPlantas = async () => {
     try {
@@ -61,16 +62,22 @@ export const usePlantaViewModel = () => {
     }
   };
 
+  const selectPlantaToEdit = (planta: Planta) => {
+    setPlantaToEdit(planta);
+  };
+
   useEffect(() => {
-    fetchPlantas(); // cargar plantas al inicio
+    fetchPlantas();
   }, []);
 
   return {
     plantas,
     isUpdating,
+    plantaToEdit,
     fetchPlantas,
     createPlanta,
     deletePlanta,
     updatePlanta,
+    selectPlantaToEdit,
   };
 };
